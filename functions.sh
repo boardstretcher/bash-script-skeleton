@@ -102,3 +102,5 @@ function only_run_as(){
 		exit
 	fi
 }
+
+# never has so little been documented so well . . .
