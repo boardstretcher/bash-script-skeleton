@@ -9,24 +9,18 @@ source functions.sh
 # trap ERR
 trap failed ERR
 
-# debugging on or off
-DEBUG=on
+# important global variables
+SYSADMIN_EMAIL="BOFH@thecave.com"
+SYSADMIN_PAGE="13135551212@verizon.txt.net"
 
-# informational output on or off
-INFO=on
-
-# create a tmp file
-TMPFILE=$(mktemp /tmp/myfile.XXXXX)
-
-# set log file
-LOGFILE=/var/log/someapp.log
-
-# get date and time in a few different formats
-# US_DATE for Day-Month-Year
-# EU-DATE for Year-Month-Day
-US_DATE=`date +%d%m%Y`
-EU_DATE=`date +%Y%m%d`
-NOW=`date +%H%M`
+ENV=prod							# environment (prod, dev, test)
+DEBUG=on							# Debug output? (on/off)
+INFO=on								# Informational output? (on/off)
+TMPFILE=$(mktemp /tmp/myfile.XXXXX) # create a tmp file
+LOGFILE=/var/log/someapp.log 		# name of log file to use
+US_DATE=`date +%d%m%Y`				# US formatted date
+EU_DATE=`date +%Y%m%d`				# EU formatted date
+NOW=`date +%H%M`					# The time at start of script
 
 # modify usage.dat to suit the program, call this function
 # to display a usage output and exit
