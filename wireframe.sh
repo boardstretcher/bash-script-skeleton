@@ -35,15 +35,13 @@ if [ $ENV != "prod" ]; then
 	set -o xtrace		# show all output to console while writing script
 fi
 
-# modify usage.dat to suit the program, call this 
-# to display a usage output and exit
-# usage
-# mini_usage
-
-# if arguments empty then display usage and exit
-#if [[ $# -eq 0 ]]; then
-#	mini_usage
-#fi
+# modify usage.dat to suit the program 
+# call usage or mini_usage to display a usage output and exit
+# if args empty then display usage and exit
+if [[ $# -eq 1 ]]; then
+	mini_usage
+	cleanup
+fi
 
 # argument handling
 while getopts ":abc" opt; do
@@ -62,10 +60,6 @@ while getopts ":abc" opt; do
 		;;
 	esac
 done
-
-# example debug output
-#debug "debug info if DEBUG=on is set at beginning of script"
-#info "standard info if INFO=on is set at beginning of script"
 
 ##
 
