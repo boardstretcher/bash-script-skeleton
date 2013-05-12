@@ -10,7 +10,7 @@ source functions.sh
 trap failed ERR
 
 # REQUIRED: important global variables
-ENV=test							# environment (prod, dev, test)
+ENV="prod"							# environment (prod, dev, test)
 DEBUG=on							# Debug output? (on/off)
 INFO=on								# Informational output? (on/off)
 TMPFILE=$(mktemp /tmp/myfile.XXXXX) # create a tmp file
@@ -29,36 +29,43 @@ HOSTS=( host1 192.168.0.2 hostname3.com )
 SSHKEY=/root/.ssh/id_rsa
 COMMAND=("ls -alh; cd /; ls -alh;")
 
+# if environment is test or dev, then set bash output to on.
+if [ $ENV != "prod" ]; then
+	set -o errtrace 	# fail and exit on first error
+	set -o xtrace		# show all output to console while writing script
+fi
+
 # modify usage.dat to suit the program, call this 
 # to display a usage output and exit
 # usage
 # mini_usage
 
 # if arguments empty then display usage and exit
-if [[ $# -eq 0 ]]; then
-	mini_usage
-fi
+#if [[ $# -eq 0 ]]; then
+#	mini_usage
+#fi
 
 # argument handling
 while getopts ":abc" opt; do
 	case $opt in
-		a)  echo "-a is set" ;;
-		b)  echo "-b is set" ;;
-		c)  echo "-c is set" ;;
-		\?) echo "unknown arg: -$OPTARG" ;;
+		a)  
+		echo "-a is set" 
+		;;
+		b)  
+		echo "-b is set" 
+		;;
+		c)  
+		echo "-c is set" 
+		;;
+		\?) 
+		echo "unknown arg: -$OPTARG" 
 		;;
 	esac
 done
 
-# fail and exit on first error
-set -o errtrace
-
-# show all output to console while writing script
-set -o xtrace
-
 # example debug output
-debug "debug info if DEBUG=on is set at beginning of script"
-info "standard info if INFO=on is set at beginning of script"
+#debug "debug info if DEBUG=on is set at beginning of script"
+#info "standard info if INFO=on is set at beginning of script"
 
 ##
 
@@ -70,7 +77,11 @@ info "standard info if INFO=on is set at beginning of script"
 
 ##
 
+# clear traces if dev/test were set
+if [ $ENV != "prod" ]; then
+	set +o errtrace
+	set +o xtrace
+fi
+
 # call a clean exit
-set +o errtrace
-set +o xtrace
 cleanup
