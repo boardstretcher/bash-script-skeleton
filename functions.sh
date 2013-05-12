@@ -35,14 +35,10 @@ function info(){
 # run multiple commands on a number of hosts using ssh key
 # usage: run_on_hosts(key, hostlist)
 function run_on_hosts(){
-	local key=$1
-	local hostlist=$2
-	local commandlist=$3
-	for hostname in $hostlist
+	for HOST in "${HOSTS[@]}"
 	do
-		info "working on $hostname"
-		# ssh -i "$key" "$hostname" "$commandlist"
-		echo "$key $hostname $commandlist"
+		info "working on $HOST"
+		info=`ssh -i "$KEY" "$HOST" "$COMMAND"`
 	done
 	return
 }
@@ -84,4 +80,3 @@ function usage(){
 function mini_usage(){
 	source mini_usage.dat
 }
-
