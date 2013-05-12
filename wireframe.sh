@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-# bash administration framework v16
-# by: steve zornes
-# 
+# bash administration framework v04.2
+# by: szboardstretcher
 
 # import custom functions
 source functions.sh
+
+# trap ERR
+trap failed ERR
 
 # debugging on or off
 DEBUG=on
@@ -19,24 +21,46 @@ TMPFILE=$(mktemp /tmp/myfile.XXXXX)
 # set log file
 LOGFILE=/var/log/someapp.log
 
+# get date and time in a few different formats
+# US_DATE for Day-Month-Year
+# EU-DATE for Year-Month-Day
+US_DATE=`date +%d%m%Y`
+EU_DATE=`date +%Y%m%d`
+NOW=`date +%H%M`
+
+# modify usage.dat to suit the program, call this function
+# to display a usage output and exit
+usage
+mini_usage
+
+
+# set hosts and key
+#declare HOSTS=( host1 192.168.0.1 hostname3.com )
+#SSHKEY=/root/.ssh/id_rsa
+#COMMAND=("ls -alh; cd /; ls -alh;")
+#run_on_hosts $SSHKEY $HOSTS $COMMAND
+
 # fail and exit on first error
 set -o errtrace
 
-# trap ERR
-trap failed ERR
-failed() {
-	local r=$?
-	set +o errtrace
-	set +o xtrace
-	echo "An error occurred..."
-	echo "Starting cleanup..."
-	rm -f $TMPFILE
-	echo "Finished cleanup"
-	exit $r
-}
+# show all output to console while writing script
+set -o xtrace
 
 # example debug output
 debug "debug info if DEBUG=on is set at beginning of script"
+info "standard info if INFO=on is set at beginning of script"
 
-# show all output to console
-set -o xtrace
+##
+
+
+#
+# Bash Script should go here
+#
+
+
+##
+
+# call a clean exit
+set +o errtrace
+set +o xtrace
+clean_exit
