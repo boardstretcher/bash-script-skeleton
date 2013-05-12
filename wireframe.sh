@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# import custom functions
+# import custom colors and functions
+source colors.dat
 source functions.sh
 
 # Make sure only root/whoever can run this script
