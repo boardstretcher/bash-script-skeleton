@@ -91,3 +91,10 @@ function alert(){
 	[  -z "$email" ] && $send -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
 	[  -z "$pager" ] && $send -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
 }
+
+function only_run_as(){
+	if [[ $EUID -ne $1 ]]; then
+		echo "script must be run as uid $1" 1>&2
+		exit
+	fi
+}

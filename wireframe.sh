@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 
-# bash administration framework v04.2
-# by: szboardstretcher
-
 # import custom functions
 source functions.sh
 
-# trap ERR
+# Make sure only root/whoever can run this script
+# currently only uid 0 (root) is allowed to run this script
+only_run_as 0 
+
+# trap ERR into failed function for handling
 trap failed ERR
 
 # REQUIRED: important global variables
-ENV="prod"							# environment (prod, dev, test)
+ENV="test"							# environment (prod, dev, test)
+MINARGS=0							# minimum number of cli arguments
 DEBUG=on							# Debug output? (on/off)
 INFO=on								# Informational output? (on/off)
 TMPFILE=$(mktemp /tmp/myfile.XXXXX) # create a tmp file
 LOGFILE=/var/log/someapp.log 		# name of log file to use
+
+# SYSTEM: standards
 US_DATE=`date +%d%m%Y`				# US formatted date
 EU_DATE=`date +%Y%m%d`				# EU formatted date
 NOW=`date +%H%M`					# The time at start of script
@@ -22,12 +26,6 @@ NOW=`date +%H%M`					# The time at start of script
 # OPTIONAL: configure contact information for alerts/output
 SYSADMIN_EMAIL="BOFH@thecave.com"
 SYSADMIN_PAGER="13135551212@verizon.txt.net"
-
-# OPTIONAL: set hosts to operate on, a key to authenticate with and 
-# commands to run against the hosts
-HOSTS=( host1 192.168.0.2 hostname3.com )
-SSHKEY=/root/.ssh/id_rsa
-COMMAND=("ls -alh; cd /; ls -alh;")
 
 # if environment is test or dev, then set bash output to on.
 if [ $ENV != "prod" ]; then
@@ -38,7 +36,7 @@ fi
 # modify usage.dat to suit the program 
 # call usage or mini_usage to display a usage output and exit
 # if args empty then display usage and exit
-if [[ $# -eq 1 ]]; then
+if [[ $# -lt $MINARGS ]]; then
 	mini_usage
 	cleanup
 fi
@@ -61,15 +59,18 @@ while getopts ":abc" opt; do
 	esac
 done
 
-##
+##################################
 
 
 #
 # additional scripting should go here
+# see snippets.dat for small pieces of re-usable code for
+# various admin functions. paste them here and change the variables
+# to suit your needs.
 #
 
 
-##
+##################################
 
 # clear traces if dev/test were set
 if [ $ENV != "prod" ]; then
