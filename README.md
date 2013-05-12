@@ -1,6 +1,7 @@
-baf (bash administrative framework) 
+<h2>baf (bash administrative framework)</h2>
 
 licensed under gplv3<br/><br/>
+
 a starting template to take care of everyday administration through bash<br/>
 <br/>
 <b>CONTENTS:</b><br/>
@@ -18,11 +19,11 @@ bash administration framework v04.2<br/>
 by		: boardstretcher@gmail.com<br/>
 language	: US/English<br/>
 os support: SL6/RHEL6/CENTOS6/Arch<br/>
-br/>
+<br/>
 <b>INTRO:</b><br/>
 edit your script copy as much as you can. it is only a template/framework<br/>
 and meant to be starting point. you have to tailor it to your requirements.<br/>
-br/>
+<br/>
 <b>CONFIG STEPS:</b><br/>
 0) copy wireframe.sh to the scriptname of your choosing<br/>
 1) comment 'only_run_as 0' if you'd like to run this script as non-root<br/>
