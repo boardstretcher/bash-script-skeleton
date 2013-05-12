@@ -80,3 +80,14 @@ function usage(){
 function mini_usage(){
 	source mini_usage.dat
 }
+
+# alert sysadmin with email
+function alert(){
+	local error_subject=$1
+	local error_message=$2
+	local email=$3
+	local pager=$4
+	local send=$(which mail) 
+	[  -z "$email" ] && $send -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
+	[  -z "$pager" ] && $send -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
+}

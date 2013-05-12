@@ -3,17 +3,14 @@
 # bash administration framework v04.2
 # by: szboardstretcher
 
-# import custom s
-source s.sh
+# import custom functions
+source functions.sh
 
 # trap ERR
 trap failed ERR
 
-# important global variables
-SYSADMIN_EMAIL="BOFH@thecave.com"
-SYSADMIN_PAGE="13135551212@verizon.txt.net"
-
-ENV=prod							# environment (prod, dev, test)
+# REQUIRED: important global variables
+ENV=test							# environment (prod, dev, test)
 DEBUG=on							# Debug output? (on/off)
 INFO=on								# Informational output? (on/off)
 TMPFILE=$(mktemp /tmp/myfile.XXXXX) # create a tmp file
@@ -21,6 +18,16 @@ LOGFILE=/var/log/someapp.log 		# name of log file to use
 US_DATE=`date +%d%m%Y`				# US formatted date
 EU_DATE=`date +%Y%m%d`				# EU formatted date
 NOW=`date +%H%M`					# The time at start of script
+
+# OPTIONAL: configure contact information for alerts/output
+SYSADMIN_EMAIL="BOFH@thecave.com"
+SYSADMIN_PAGER="13135551212@verizon.txt.net"
+
+# OPTIONAL: set hosts to operate on, a key to authenticate with and 
+# commands to run against the hosts
+HOSTS=( host1 192.168.0.2 hostname3.com )
+SSHKEY=/root/.ssh/id_rsa
+COMMAND=("ls -alh; cd /; ls -alh;")
 
 # modify usage.dat to suit the program, call this 
 # to display a usage output and exit
@@ -42,13 +49,6 @@ while getopts ":abc" opt; do
 		;;
 	esac
 done
-
-# set hosts to operate on, a key to authenticate with and commands
-# to run against the hosts
-HOSTS=( host1 192.168.0.1 hostname3.com )
-SSHKEY=/root/.ssh/id_rsa
-COMMAND=("ls -alh; cd /; ls -alh;")
-run_on_hosts
 
 # fail and exit on first error
 set -o errtrace
