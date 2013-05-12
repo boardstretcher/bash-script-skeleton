@@ -1,5 +1,8 @@
-# debug info to be shown if DEBUG is set to 'on'
-# usage: debug "text to output in case debug is on"
+#
+
+# function failed() 		# error handling with trap
+#	usage: none really
+#
 function failed() {
 	local r=$?
 	set +o errtrace
@@ -8,7 +11,9 @@ function failed() {
 	cleanup
 }
 
-# run a cleanup before exiting
+# function cleanup() 		# run a cleanup before exiting
+#	usage: cleanup
+#
 function cleanup(){
 	debug "Starting cleanup..."
 	rm -f $TMPFILE
@@ -16,6 +21,9 @@ function cleanup(){
 	exit
 }
 
+# function debug() 			# echo debug information to screen and log if DEBUG is set to on
+# 	usage: debug "the program broke"
+#
 function debug(){
 	local msg="[debug] - $1"
 	[ "$DEBUG" == "on" ] && echo $1
@@ -23,8 +31,9 @@ function debug(){
 	return
  }
 
-# post info to screen and log if INFO is set to on
-# usage: info "text to output in case INFO is on"
+# function info() 			# post info to screen and log if INFO is set to on
+# 	usage: info "text to output in case INFO is on"
+#
 function info(){
 	local msg="[info] - $1"
 	[ "$INFO" == "on" ] && echo $msg
@@ -32,18 +41,9 @@ function info(){
 	return
 }
 
-# run multiple commands on a number of hosts using ssh key
-# usage: run_on_hosts(key, hostlist)
-function run_on_hosts(){
-	for HOST in "${HOSTS[@]}"
-	do
-		info "working on $HOST"
-		info `ssh -i "$KEY" "$HOST" "$COMMAND"`
-	done
-	return
-}
-
-# change field seperator
+# function change_ifs()		# change the default field seperator
+# 	usage: change_ifs ":"
+#
 function change_ifs(){
 	new_ifs=$1
 	OLDIFS="${IFS}"
@@ -51,14 +51,9 @@ function change_ifs(){
 	return
 }
 
-# return true if file exists
-function if_exist(){
-	if [ -f "/some/file/exists" ]; then
-	echo "the file exists"
-	fi
-}
-
-# look for a regex in a string, if match return true
+# function check_regex()	# look for a regex in a string, if match return true
+#	usage: if $(check_regex $some_var $some_regex_pattern) then; echo "true"
+#
 function check_regex(){
 	local input=$1
 	local regex=$2
@@ -71,27 +66,36 @@ function check_regex(){
 	fi
 }
 
-# show script usage and exit
+# function usage()			# show the usage.dat file
+#	usage: usage
+#
 function usage(){
 	source usage.dat
 }
 
-# show mini script usage and exit
+# function mini_usage()		# show the mini_usage.dat file
+#	usage: mini_usage
+#
 function mini_usage(){
 	source mini_usage.dat
 }
 
-# alert sysadmin with email
+# function alert()			# alert sysadmin email/pager with an email
+#	usage: alert "the program broke" "really bad" yes yes
+#
 function alert(){
 	local error_subject=$1
 	local error_message=$2
 	local email=$3
 	local pager=$4
 	local send=$(which mail) 
-	[  -z "$email" ] && $send -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
-	[  -z "$pager" ] && $send -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
+	[ "$email" == "yes" ] && $send -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
+	[ "$pager" == "yes" ] && $send -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
 }
 
+# function only_run_as()	# only allow script to continue if uid matches
+#	usage: only_run_as 0
+#
 function only_run_as(){
 	if [[ $EUID -ne $1 ]]; then
 		echo "script must be run as uid $1" 1>&2
