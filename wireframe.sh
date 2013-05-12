@@ -3,8 +3,8 @@
 # bash administration framework v04.2
 # by: szboardstretcher
 
-# import custom functions
-source functions.sh
+# import custom s
+source s.sh
 
 # trap ERR
 trap failed ERR
@@ -22,7 +22,7 @@ US_DATE=`date +%d%m%Y`				# US formatted date
 EU_DATE=`date +%Y%m%d`				# EU formatted date
 NOW=`date +%H%M`					# The time at start of script
 
-# modify usage.dat to suit the program, call this function
+# modify usage.dat to suit the program, call this 
 # to display a usage output and exit
 # usage
 # mini_usage
@@ -73,4 +73,4 @@ info "standard info if INFO=on is set at beginning of script"
 # call a clean exit
 set +o errtrace
 set +o xtrace
-clean_exit
+cleanup

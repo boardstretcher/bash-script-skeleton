@@ -5,11 +5,11 @@ function failed() {
 	set +o errtrace
 	set +o xtrace
 	echo "An error occurred..."
-	clean_exit
+	cleanup
 }
 
 # run a cleanup before exiting
-function clean_exit(){
+function cleanup(){
 	debug "Starting cleanup..."
 	rm -f $TMPFILE
 	debug "Finished cleanup"
@@ -38,7 +38,7 @@ function run_on_hosts(){
 	for HOST in "${HOSTS[@]}"
 	do
 		info "working on $HOST"
-		info=`ssh -i "$KEY" "$HOST" "$COMMAND"`
+		info `ssh -i "$KEY" "$HOST" "$COMMAND"`
 	done
 	return
 }
