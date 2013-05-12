@@ -1,12 +1,12 @@
-baf
+baf (bash administrative framework) 
 ===
-
-bash administrative framework
-===
-a start spot to take care of everyday administration through bash<br/>
-
-LICENSE.md		- the gplv3 that this framework is licensed under
-README.md		- this file
+gplv3<br/><br/>
+a starting template to take care of everyday administration through bash<br/>
+<br/>
+contents:<br/>
+<br/>
+LICENSE.md		- the gplv3 that this framework is licensed under<br/>
+README.md		- this file<br/>
 functions.sh	- commonly used functions for administration<br/>
 wireframe.sh	- a shell of a bash script with useful stuff already available<br/>
 usage.dat		- full usage information for the program<br/>
