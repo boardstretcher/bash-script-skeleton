@@ -1,0 +1,5 @@
+cat << EOF
+$0 [OPTIONS] FILE [FILE ...] Do something to FILE
+	This that and the other about the stuff
+		blah and stuff if you'd prefer further
+EOF
