@@ -34,7 +34,7 @@ function cleanup(){
 #
 function debug(){
 	local msg="[debug] - $1"
-	[ "$DEBUG" == "on" ] && echo $1
+	[ "$DEBUG" == "on" ] && echo $msg
 	[ "$DEBUG" == "on" ] && echo $msg > $LOGFILE
 	return
  }
@@ -138,4 +138,27 @@ only_run_in(){
 	fi
 }
 
+# function check_reqs()		# check that needed programs are installed
+#	usage: none really (system)
+#
+function check_reqs(){
+for x in "${REQUIRED_PROGS[@]}"
+	do
+		type "$x" >/dev/null 2>&1 || { echo "$x is required and is NOT installed. Please install $x and try again. Exiting."; exit; }
+	done
+}
+
+# function check_env()		# check that needed programs are installed
+#	usage: none really (system)
+#
+function check_env(){
+if [ $ENV != "prod" ] && [ $1 == "set" ]; then
+	set -o errtrace 				# fail and exit on first error
+	set -o xtrace					# show all output to console while writing script
+fi
+if [ $ENV != "prod" ] && [ $1 == "unset" ]; then
+	set +o errtrace
+	set +o xtrace
+fi
+}
 # never has so little been documented so well . . .
