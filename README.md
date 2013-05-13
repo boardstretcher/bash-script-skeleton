@@ -20,6 +20,18 @@ by				: boardstretcher@gmail.com
 language		: US/English
 os support		: SL6/RHEL6/CENTOS6/Arch
 </pre>
+<br/><b>PURPOSE:</b><br/>
+<pre>
+this is meant to be a skeleton of a bash script with all the error handling,
+logging, environment seperation, and the rest, already in it. So I can worry
+about creating scripts instead of re-creating the skeleton everytime.
+
+there are also a collection of useful functions to use throughout the 
+framework.
+
+and additionally there are snippets of bash commands that i've compiled over
+the years that can be helpful, rather than baking your own.
+</pre>
 <br/><b>INTRO:</b><br/>
 <pre>
 edit your script copy as much as you can. it is only a template/framework
