@@ -28,10 +28,10 @@ source functions.sh
 only_run_as 1000
 
 # REQUIRED: important global variables
-ENV="prod"							# environment (prod, dev, test)
+ENV="dev"							# environment (prod, dev, test)
 MINARGS=0							# minimum number of cli arguments
-DEBUG=on							# Debug output? (on/off)
-INFO=on								# Informational output? (on/off)
+DEBUG=off							# Debug output? (on/off)
+INFO=off							# Informational output? (on/off)
 TMPFILE=$(mktemp /tmp/myfile.XXXXX) # create a tmp file
 LOGFILE=/var/log/someapp.log 		# name of log file to use
 
@@ -45,7 +45,7 @@ SYSADMIN_EMAIL="BOFH@localhost"
 SYSADMIN_PAGER="13135551212@localhost.verizon.net"
 REQUIRED_PROGS=(bash ssh)
 
-# echo shell vars to log file
+# echo shell vars to log file for debugging
 if [ $DEBUG == "on" ]; then echo $VARS >> $LOGFILE; fi
 
 # check for required program(s)
@@ -65,17 +65,17 @@ check_env set
 # if args empty then display usage and exit
 if [[ $# -lt $MINARGS ]]; then mini_usage; cleanup; fi
 
-# argument handling
-while getopts ":abc" opt; do
+# argument handling - standard examples
+while getopts ":dvV" opt; do
 	case $opt in
-		a)  
-		echo "-a is set" 
+		d)  
+		echo "-d debugging is on" 
 		;;
-		b)  
-		echo "-b is set" 
+		v)  
+		echo "-v verbosity is on" 
 		;;
-		c)  
-		echo "-c is set" 
+		V)  
+		echo "-V version info" 
 		;;
 		\?) 
 		echo "unknown arg: -$OPTARG" 
@@ -85,6 +85,7 @@ done
 
 ##################################
 
+# test the framework by uncommenting the next line:
 # source tests.sh
 
 #
@@ -97,11 +98,11 @@ done
 
 ##################################
 
-# echo all current vars to log file
+# echo all current vars to log file for debugging
 NEW_VARS="`set -o posix ; set`"
 if [ $DEBUG == "on" ]; then echo $NEW_VARS >> $LOGFILE; fi
 
-# clear traces if dev/test were set
+# clear bash traces if dev/test was set
 check_env unset
 
 # call a clean exit

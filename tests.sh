@@ -20,3 +20,6 @@ echo "SYSADMIN_PAGER = $SYSADMIN_PAGER"
 # run usages
 mini_usage
 usage
+
+# fail on something
+asdfasdf

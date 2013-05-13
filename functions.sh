@@ -35,7 +35,7 @@ function cleanup(){
 function debug(){
 	local msg="[debug] - $1"
 	[ "$DEBUG" == "on" ] && echo $msg
-	[ "$DEBUG" == "on" ] && echo $msg > $LOGFILE
+	[ "$DEBUG" == "on" ] && echo $msg >> $LOGFILE
 	return
  }
 
@@ -45,7 +45,7 @@ function debug(){
 function info(){
 	local msg="[info] - $1"
 	[ "$INFO" == "on" ] && echo $msg
-	[ "$INFO" == "on" ] && echo $msg > $LOGFILE
+	[ "$INFO" == "on" ] && echo $msg >> $LOGFILE
 	return
 }
 
@@ -162,14 +162,21 @@ if [ $ENV != "prod" ] && [ $1 == "unset" ]; then
 fi
 }
 
+function if_check_ip() {
+	# check if ip is alive, if so then true and do this
+	echo
+}
+
 function wait_til_done(){
 	# perhaps
 	echo
+	wait
 }
 
 function paralell_exec() {
 	# fire off multiple bg jobs
 	echo
+	
 }
 
 function bg_exec() {
@@ -178,15 +185,8 @@ function bg_exec() {
 }
 
 function set_verbosity(){
-	# Set verbosity
-if [ "0$VERBOSE" -eq 0 ]; then
-    # Default, quiet
-elif [ $VERBOSE -eq 1 ]; then
-    # Enable log messages
-elif [ $VERBOSE -ge 2 ]; then
-    # Enable high verbosity
-elif [ $VERBOSE -ge 3 ]; then
-    # Enable debug verbosity
-fi
+	# Set verbosity for script output
+	echo
 }
+
 # never has so little been documented so well . . .
