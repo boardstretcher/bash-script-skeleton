@@ -168,20 +168,25 @@ function if_check_ip() {
 }
 
 function wait_til_done(){
-	# perhaps
-	echo
+	# execute a command and wait until done
+	debug "wait_til_done: $1" 
+	$1
 	wait
 }
 
 function paralell_exec() {
 	# fire off multiple bg jobs
-	echo
-	
+	debug "total commands passed: $#"
+	for i in $@ do
+		debug "paralell exec of: $i"
+		$i &
+	done
 }
 
 function bg_exec() {
 	# execute in background and move on
-	echo
+	debug "executing $1 to the background"
+	$1 &
 }
 
 function set_verbosity(){
