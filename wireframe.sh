@@ -45,6 +45,10 @@ SYSADMIN_EMAIL="BOFH@localhost"
 SYSADMIN_PAGER="13135551212@localhost.verizon.net"
 REQUIRED_PROGS=(bash ssh)
 
+# does $LOGFILE exist, and is $LOGFILE writable?
+[ -z $LOGFILE ] && debug "Logfile $LOGFILE exists" || debug "Logfile $LOGFILE does not exist, exiting."; exit;
+[ -w $LOGFILE ] && debug "Logfile $LOGFILE writeable" || debug "Logfile $LOGFILE no Writable, exiting."; exit
+
 # echo shell vars to log file for debugging
 if [ $DEBUG == "on" ]; then echo $VARS >> $LOGFILE; fi
 
