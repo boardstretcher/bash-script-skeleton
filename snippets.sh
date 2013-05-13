@@ -92,3 +92,28 @@ rsync -varh --progress from_dir to_dir 		# no compression
 rsync -varhz --progress from_dir to_dir 	# with compression
 dc3dd if=/dev/some_device of=ddimage.dat progress=on 
 dc3dd if=/some/file of=/some/other/file progress=on
+
+ ######################################
+# snippet 8
+# check dns server response time
+time for ((a=1; a <= 1000; a++)); do dig @4.2.2.3 www.google.com; done
+
+ ######################################
+# snippet 9
+# Create db and import db into it (multiple db's)
+for i in *.sql; do
+	mysql -e "create database $(basename $i .sql)"; 
+	pv $i | mysql $(basename $i .sql); 
+done
+
+ ######################################
+# snippet 10
+# simple speed tests between servers using ssh/pv
+yes | pv | ssh $host "cat > /dev/null"    
+echo /dev/zero | pv | ssh $host "cat > /dev/null"
+
+ ######################################
+# snippet 11
+# find files of $username and add sizes together
+find . -name *.dat -user "root" -exec du -b {} \; | awk '{size+=$1} END{print size}' 
+
