@@ -29,6 +29,16 @@ function cleanup(){
 	exit
 }
 
+# function get_os_locs() 	# get os-specific tool locations into variables
+#	usage: get_os_locs
+#
+function get_os_locs(){
+	RSYNC=$(which rsync)
+	TAR=$(which tar)
+	DD=$(which dd)
+	# and so on...
+}
+
 # function debug() 			# echo debug information to screen and log if DEBUG is set to on
 # 	usage: debug "the program broke"
 #
@@ -148,7 +158,7 @@ for x in "${REQUIRED_PROGS[@]}"
 	done
 }
 
-# function check_env()		# check that needed programs are installed
+# function check_env()		# set tracing if dev or test environment
 #	usage: none really (system)
 #
 function check_env(){
