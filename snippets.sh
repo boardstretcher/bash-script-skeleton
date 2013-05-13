@@ -1,3 +1,13 @@
+# name		: bash administration framework v04.2 
+# subname	: because everyone is naming everything a framework now
+
+# *see LICENSE.md for gplv3 information concerning this framework
+
+# ABOUT:
+# file		: snippets.sh
+# language	: US/English
+# os support: SL6/RHEL6/CENTOS6/Arch
+
 #####################################
 # snippet 1
 # quick easy way to make a temp file and remove it upon exit
@@ -65,3 +75,17 @@ done < somefile
 # bonus, as a oneliner
 
 while read line; do echo -e "$line\n"; done < somefile
+
+######################################
+# snippet 6
+# tar over ssh
+tar czvf - /some/dir | ssh root@backup.server.com "cat > /backups/some/file.tar.gz"
+
+######################################
+# snippet 7
+# collection of copy methods with progress
+pv from_file to_file 
+rsynv -varh --progress from_dir to_dir
+dc3dd if=/dev/some_device of=image.dd progress=on 
+dc3dd if=/some/file of=/some/other/file progress=on
+

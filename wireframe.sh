@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-# bash administration framework v04.2
+# name		: bash administration framework v04.2 
+# subname	: because everyone is naming everything a framework now
+
+# *see LICENSE.md for gplv3 information concerning this framework
 
 # ABOUT:
 # file		: wireframe.sh
@@ -27,7 +30,7 @@ source functions.sh
 
 # Make sure only root/whoever can run this script
 # currently only uid 0 (root) is allowed to run this script
-only_run_as 0 
+only_run_as 0
 
 # REQUIRED: important global variables
 ENV="test"							# environment (prod, dev, test)

@@ -1,4 +1,12 @@
-#
+# name		: bash administration framework v04.2 
+# subname	: because everyone is naming everything a framework now
+
+# *see LICENSE.md for gplv3 information concerning this framework
+
+# ABOUT:
+# file		: functions.sh
+# language	: US/English
+# os support: SL6/RHEL6/CENTOS6/Arch#
 
 # function failed() 		# error handling with trap
 #	usage: none really
