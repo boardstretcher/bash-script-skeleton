@@ -161,4 +161,32 @@ if [ $ENV != "prod" ] && [ $1 == "unset" ]; then
 	set +o xtrace
 fi
 }
+
+function wait_til_done(){
+	# perhaps
+	echo
+}
+
+function paralell_exec() {
+	# fire off multiple bg jobs
+	echo
+}
+
+function bg_exec() {
+	# execute in background and move on
+	echo
+}
+
+function set_verbosity(){
+	# Set verbosity
+if [ "0$VERBOSE" -eq 0 ]; then
+    # Default, quiet
+elif [ $VERBOSE -eq 1 ]; then
+    # Enable log messages
+elif [ $VERBOSE -ge 2 ]; then
+    # Enable high verbosity
+elif [ $VERBOSE -ge 3 ]; then
+    # Enable debug verbosity
+fi
+}
 # never has so little been documented so well . . .
