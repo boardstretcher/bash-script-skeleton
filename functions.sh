@@ -103,4 +103,31 @@ function only_run_as(){
 	fi
 }
 
+# function text()			# output text ERROR or OK with color (good for cli output)
+#	usage: text error "there was some sort of error"
+#	usage: text ok "everything was ok"
+#
+text() {
+	local color=${1}
+	shift
+	local text="${@}"
+
+	case ${color} in
+		error  ) echo -en "["; tput setaf 1; echo -en "ERROR"; tput sgr0; echo "] ${text}";;
+		ok     ) echo -en "["; tput setaf 2; echo -en "OK"; tput sgr0; echo "]    ${text}";;
+	esac
+	tput sgr0
+}
+
+# function only_run_in()	# check that script is run from /root/bin
+#	usage: only_run_in "/home/user"
+#
+only_run_in(){
+	local cwd=`pwd`
+	if [ $cwd != "$1" ]; then
+		echo "script must be run from $1 directory";
+		exit
+	fi
+}
+
 # never has so little been documented so well . . .

@@ -18,6 +18,8 @@
 # mini_usage()
 # alert()
 # only_run_as()
+# text()
+# only_run_in()
 
 # import custom colors and functions
 source colors.dat
@@ -26,9 +28,6 @@ source functions.sh
 # Make sure only root/whoever can run this script
 # currently only uid 0 (root) is allowed to run this script
 only_run_as 0 
-
-# trap ERR into failed function for handling
-trap failed ERR
 
 # REQUIRED: important global variables
 ENV="test"							# environment (prod, dev, test)
@@ -46,6 +45,11 @@ NOW=`date +%H%M`					# The time at start of script
 # OPTIONAL: configure contact information for alerts/output
 SYSADMIN_EMAIL="BOFH@thecave.com"
 SYSADMIN_PAGER="13135551212@verizon.txt.net"
+
+# trap ERR into failed function for handling
+trap failed ERR
+# trap EXIT and delete tmpfile, in case cleanup is not called
+trap "/bin/rm -f ${TMPFILE}" EXIT 
 
 # if environment is test or dev, then set bash output to on.
 if [ $ENV != "prod" ]; then
