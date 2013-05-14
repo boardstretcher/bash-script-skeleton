@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# see README.md for a quick step guide to using the framework
+# see README.md for a quick stepbystep guide to using the framework
 
 # name		: bash administration framework v04.2 
 # subname	: because everyone is naming everything a framework now
@@ -11,10 +11,6 @@
 # file		: wireframe.sh
 # language	: US/English
 # os support: SL6/RHEL6/CENTOS6/Arch
-
-# FUNCTIONS: (see functions.sh for usage)
-# failed(), cleanup(), debug(), info(), change_ifs(), check_regex()
-# usage(), mini_usage(), alert(), only_run_as(), text(), only_run_in()
 
 # grab system vars and store them in VAR_BEFORE
 VARS=`set -o posix ; set`
@@ -52,10 +48,10 @@ only_run_as 1000
 # echo shell vars to log file for debugging
 if [ $DEBUG == "on" ]; then $ECHO $VARS >> $LOGFILE; fi
 
-# check for required program(s)
+# check for required program(s) listed in $REQUIRED_PROGS() 
 check_reqs
 
-# trap ERR into failed function for handling
+# trap ERR into failed() function for handling
 trap failed ERR
 
 # trap EXIT and delete tmpfile, in case cleanup is not called

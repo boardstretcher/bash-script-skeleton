@@ -13,6 +13,8 @@ RM=$(which rm);			FIND=$(which find);
 ECHO=$(which echo);		TPUT=$(which tput);
 PS=$(which ps);			GREP=$(which grep);
 MAIL=$(which mail);		SSH=$(which ssh);
+WGET=$(which wget); 	TCPDUMP=$(which tcpdump);
+CURL=$(which curl);	
 
 # OPTIONAL COMMAND MAPPINGS:
 # mainly for snippets
@@ -20,7 +22,6 @@ MAIL=$(which mail);		SSH=$(which ssh);
 #DC3DD=$(which dc3dd);	DD=$(which dd);
 #PV=$(which pv);	  	TIME=$(which time);
 #MYSQL=$(which mysql);	YES=$(which yes);
-
 
 # function debug() 			# echo debug information to screen and log if DEBUG is set to on
 # 	usage: debug "the program broke"
@@ -215,4 +216,63 @@ function set_verbosity(){
 	$ECHO
 }
 
+# function mygrants() 	# Displays all grant imygrantsnformation
+#	usage: mygrants [-h -u -p]
+#
+function mygrants () {
+	$MYSQL -B -N $@ -e "SELECT DISTINCT CONCAT(
+	'SHOW GRANTS FOR ''', user, '''@''', host, ''';'
+	) AS query FROM mysql.user" |   mysql $@ |   sed 's/\(GRANT .*\)/\1;/;s/^\(Grants for .*\)/## \1 ##/;/##/{x;p;x;}'; }
+
+# function myspace()	# Displays disk usage of tables
+# usage: myspace [ -h -u -p ]
+#
+function myspace() {
+	$MYSQL -B -N $@ -e "SELECT table_schema, count(*) TABLES,
+	concat(round(sum(table_rows)/1000000,2),'M')
+	rows,concat(round(sum(data_length)/(1024*1024*1024),2),'G')
+	DATA,concat(round(sum(index_length)/(1024*1024*1024),2),'G')
+	idx,concat(round(sum(data_length+index_length)/(1024*1024*1024),2),'G')
+	total_size,round(sum(index_length)/sum(data_length),2) idxfrac
+	FROM information_schema.TABLES group by table_schema;"; }
+
+# function runforonly()	# Runs a command for a specified number of seconds
+# usage: runforonly [number of seconds] [command]
+#
+function runforonly() {
+        local runtime=${1:-1m}
+        mypid=$$
+        shift
+        $@ &
+        local cpid=$!
+        sleep $runtime
+        kill -s SIGTERM $cpid ;}
+
+# function googl() 		#Creates a shortened URL from a longer one
+# usage: googl [some url]
+#
+function googl () { 
+    $CURL -s -d "url=${1}" http://goo.gl/api/url | sed -n "s/.*:\"\([^\"]*\).*/\1\n/p" ;}
+
+# function checksu() 	# Checks a shortened URL's actual destination
+# usage: checksu [some shortened url]
+#
+function checksu(){ 
+    $CURL -sI $1 | sed -n 's/Location:.* //p';}
+
+# function getextip()	# get your external ip address in text
+# usage: getextip
+#
+function getextip() {
+    $WGET -qO- icanhazip.com; }
+
+# function tcp()		# dump tcp packets
+# usage: tcp
+#    
+function tcp() { 
+    # Usage: tcp [interface name]
+    $TCPDUMP -nUs0 -w- -iinterface $1|tcpdump -n${2-A}r- ; }
+
 # never has so little been documented so well . . .
+
+
