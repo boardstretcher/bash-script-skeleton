@@ -23,13 +23,13 @@ VARS=`set -o posix ; set`
 ENV="dev"								# environment (prod, dev, test)
 MINARGS=0								# minimum number of cli arguments
 DEBUG=off								# Debug output? (on/off)
-INFO=on								# Informational output? (on/off)
-TMPFILE=$(mktemp /tmp/myfile.XXXXX)	# create a tmp file
+INFO=on									# Informational output? (on/off)
+TMPFILE=$(mktemp /tmp/myfile.XXXXX)		# create a tmp file
 LOGFILE=/var/log/someapp.log 			# name of log file to use
 
 # SYSTEM: time and dates to construct filenames
-US_DATE=`date +%d%m%Y`				# US formatted date
-EU_DATE=`date +%Y%m%d`				# EU formatted date
+US_DATE=`date +%d%m%Y`					# US formatted date
+EU_DATE=`date +%Y%m%d`					# EU formatted date
 NOW=`date +%H%M`						# The time at start of script
 
 # OPTIONAL: configure contact info for alerts, and required programs

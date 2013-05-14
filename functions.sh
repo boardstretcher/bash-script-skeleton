@@ -16,10 +16,10 @@ MAIL=$(which mail);		SSH=$(which ssh);
 
 # OPTIONAL COMMAND MAPPINGS:
 # mainly for snippets
-#local RSYNC=$(which rsync);	  local  TAR=$(which tar);
-#local DC3DD=$(which dc3dd);	  local   DD=$(which dd);
-#local 	 PV=$(which pv);	  local TIME=$(which time);
-#local MYSQL=$(which mysql);	  local  YES=$(which yes);
+#RSYNC=$(which rsync);	TAR=$(which tar);
+#DC3DD=$(which dc3dd);	DD=$(which dd);
+#PV=$(which pv);	  	TIME=$(which time);
+#MYSQL=$(which mysql);	YES=$(which yes);
 
 
 # function debug() 			# echo debug information to screen and log if DEBUG is set to on
@@ -47,6 +47,7 @@ function info(){
 #
 function cleanup(){
 	debug "Starting cleanup..."
+	# isset?
 	$RM -f $TMPFILE
 	debug "Finished cleanup"
 	exit
