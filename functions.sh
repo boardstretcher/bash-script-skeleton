@@ -57,7 +57,7 @@ function cleanup(){
 # function failed() 		# error handling with trap
 #	usage: none really
 #
-function failed() {
+function failed(){
 	local r=$?
 	set +o errtrace
 	set +o xtrace
@@ -65,12 +65,18 @@ function failed() {
 	cleanup
 }
 
-# function get_os_locs() 	# get os-specific tool locations into variables
-#	usage: get_os_locs
+# function usage()			# show the usage.dat file
+#	usage: usage
 #
-function get_os_locs(){
-	$ECHO
-	# and so on...
+function usage(){
+	source usage.dat
+}
+
+# function mini_usage()		# show the mini_usage.dat file
+#	usage: mini_usage
+#
+function mini_usage(){
+	source mini_usage.dat
 }
 
 # function change_ifs()		# change the default field seperator
@@ -108,69 +114,6 @@ function check_regex(){
 	fi
 }
 
-# function usage()			# show the usage.dat file
-#	usage: usage
-#
-function usage(){
-	source usage.dat
-}
-
-# function mini_usage()		# show the mini_usage.dat file
-#	usage: mini_usage
-#
-function mini_usage(){
-	source mini_usage.dat
-}
-
-# function alert()			# alert sysadmin email/pager with an email
-#	usage: alert "the program broke" "really bad" yes yes
-#
-function alert(){
-	local error_subject=$1
-	local error_message=$2
-	local email=$3
-	local pager=$4
-	[ "$email" == "yes" ] && $MAIL -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
-	[ "$pager" == "yes" ] && $MAIL -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
-}
-
-# function only_run_as()	# only allow script to continue if uid matches
-#	usage: only_run_as 0
-#
-function only_run_as(){
-	if [[ $EUID -ne $1 ]]; then
-		$ECHO "script must be run as uid $1" 1>&2
-		exit
-	fi
-}
-
-# function text()			# output text ERROR or OK with color (good for cli output)
-#	usage: text error "there was some sort of error"
-#	usage: text ok "everything was ok"
-#
-text() {
-	local color=${1}
-	shift
-	local text="${@}"
-
-	case ${color} in
-		error  ) $ECHO -en "["; $TPUT setaf 1; $ECHO -en "ERROR"; $TPUT sgr0; $ECHO "] ${text}";;
-		ok     ) $ECHO -en "["; $TPUT setaf 2; $ECHO -en "OK"; $TPUT sgr0; $ECHO "]    ${text}";;
-	esac
-	$TPUT sgr0
-}
-
-# function only_run_in()	# check that script is run from /root/bin
-#	usage: only_run_in "/home/user"
-#
-only_run_in(){
-	local cwd=`pwd`
-	if [ $cwd != "$1" ]; then
-		$ECHO "script must be run from $1 directory";
-		exit
-	fi
-}
-
 # function check_reqs()		# check that needed programs are installed
 #	usage: none really (system)
 #
@@ -195,31 +138,72 @@ if [ $ENV != "prod" ] && [ $1 == "unset" ]; then
 fi
 }
 
-function if_check_ip() {
-	# check if ip is alive, if so then true and do this
-	$ECHO
+# function alert()			# alert sysadmin email/pager with an email
+#	usage: alert "the program broke" "really bad" yes yes
+#
+function alert(){
+	local error_subject=$1
+	local error_message=$2
+	local email=$3
+	local pager=$4
+	[ "$email" == "yes" ] && $MAIL -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
+	[ "$pager" == "yes" ] && $MAIL -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
 }
 
-function wait_til_done(){
-	# perhaps
-	$ECHO
-	wait
+# function only_run_as()	# only allow script to continue if uid matches
+#	usage: only_run_as 0
+#
+function only_run_as(){
+	if [[ $EUID -ne $1 ]]; then
+		$ECHO "script must be run as uid $1" 1>&2
+		exit
+	fi
 }
 
-function paralell_exec() {
-	# fire off multiple bg jobs
-	$ECHO
+# function only_run_in()	# check that script is run from /root/bin
+#	usage: only_run_in "/home/user"
+#
+function only_run_in(){
+	local cwd=`pwd`
+	if [ $cwd != "$1" ]; then
+		$ECHO "script must be run from $1 directory";
+		exit
+	fi
 }
 
-function set_verbosity(){
-	# Set verbosity for script output
-	$ECHO
+# function only_run_for()	# Runs a command for a specified number of seconds
+# usage: only_run_for [number of seconds] [command]
+#
+function only_run_for(){
+        local runtime=${1:-1m}
+        mypid=$$
+        shift
+        $@ &
+        local cpid=$!
+        sleep $runtime
+        kill -s SIGTERM $cpid
+}
+
+# function text()			# output text ERROR or OK with color (good for cli output)
+#	usage: text error "there was some sort of error"
+#	usage: text ok "everything was ok"
+#
+function text(){
+	local color=${1}
+	shift
+	local text="${@}"
+
+	case ${color} in
+		error  ) $ECHO -en "["; $TPUT setaf 1; $ECHO -en "ERROR"; $TPUT sgr0; $ECHO "] ${text}";;
+		ok     ) $ECHO -en "["; $TPUT setaf 2; $ECHO -en "OK"; $TPUT sgr0; $ECHO "]    ${text}";;
+	esac
+	$TPUT sgr0
 }
 
 # function mygrants() 	# Displays all grant imygrantsnformation
 #	usage: mygrants [-h -u -p]
 #
-function mygrants () {
+function mygrants(){
 	$MYSQL -B -N $@ -e "SELECT DISTINCT CONCAT(
 	'SHOW GRANTS FOR ''', user, '''@''', host, ''';'
 	) AS query FROM mysql.user" |   mysql $@ |   sed 's/\(GRANT .*\)/\1;/;s/^\(Grants for .*\)/## \1 ##/;/##/{x;p;x;}'; }
@@ -227,7 +211,7 @@ function mygrants () {
 # function myspace()	# Displays disk usage of tables
 # usage: myspace [ -h -u -p ]
 #
-function myspace() {
+function myspace(){
 	$MYSQL -B -N $@ -e "SELECT table_schema, count(*) TABLES,
 	concat(round(sum(table_rows)/1000000,2),'M')
 	rows,concat(round(sum(data_length)/(1024*1024*1024),2),'G')
@@ -236,22 +220,10 @@ function myspace() {
 	total_size,round(sum(index_length)/sum(data_length),2) idxfrac
 	FROM information_schema.TABLES group by table_schema;"; }
 
-# function runforonly()	# Runs a command for a specified number of seconds
-# usage: runforonly [number of seconds] [command]
-#
-function runforonly() {
-        local runtime=${1:-1m}
-        mypid=$$
-        shift
-        $@ &
-        local cpid=$!
-        sleep $runtime
-        kill -s SIGTERM $cpid ;}
-
 # function googl() 		#Creates a shortened URL from a longer one
 # usage: googl [some url]
 #
-function googl () { 
+function googl(){ 
     $CURL -s -d "url=${1}" http://goo.gl/api/url | sed -n "s/.*:\"\([^\"]*\).*/\1\n/p" ;}
 
 # function checksu() 	# Checks a shortened URL's actual destination
@@ -263,16 +235,45 @@ function checksu(){ 
 # function getextip()	# get your external ip address in text
 # usage: getextip
 #
-function getextip() {
+function getextip(){
     $WGET -qO- icanhazip.com; }
 
 # function tcp()		# dump tcp packets
 # usage: tcp
 #    
-function tcp() { 
+function tcp(){ 
     # Usage: tcp [interface name]
     $TCPDUMP -nUs0 -w- -iinterface $1|tcpdump -n${2-A}r- ; }
 
+#		#		#
+# TO BE WRITTEN #
+#		#		#
+function check_ip(){
+	# check if ip is alive, if so then true and do this
+	$ECHO
+}
+
+function wait_til_done(){
+	# perhaps
+	$ECHO
+	wait
+}
+
+function paralell_exec(){
+	# fire off multiple bg jobs
+	$ECHO
+}
+
+function set_verbosity(){
+	# Set verbosity for script output
+	$ECHO
+}
+
+# function get_os_locs() 	# get os-specific tool locations into variables
+#	usage: get_os_locs
+#
+function get_os_locs(){
+	$ECHO
+	# and so on...
+}
 # never has so little been documented so well . . .
-
-

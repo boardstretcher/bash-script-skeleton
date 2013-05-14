@@ -83,6 +83,9 @@ while getopts ":dvV" opt; do
 	esac
 done
 
+# always nice to have your external ip address
+EXT_IP=$(getextip)
+
 ##################################
 
 # test the framework by uncommenting the next line:
