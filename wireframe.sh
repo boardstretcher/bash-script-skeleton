@@ -19,6 +19,24 @@
 # grab system vars and store them in VAR_BEFORE
 VARS=`set -o posix ; set`
 
+# REQUIRED: important global variables
+ENV="dev"								# environment (prod, dev, test)
+MINARGS=0								# minimum number of cli arguments
+DEBUG=off								# Debug output? (on/off)
+INFO=on								# Informational output? (on/off)
+TMPFILE=$(mktemp /tmp/myfile.XXXXX)	# create a tmp file
+LOGFILE=/var/log/someapp.log 			# name of log file to use
+
+# SYSTEM: time and dates to construct filenames
+US_DATE=`date +%d%m%Y`				# US formatted date
+EU_DATE=`date +%Y%m%d`				# EU formatted date
+NOW=`date +%H%M`						# The time at start of script
+
+# OPTIONAL: configure contact info for alerts, and required programs
+SYSADMIN_EMAIL="BOFH@localhost"
+SYSADMIN_PAGER="13135551212@localhost.verizon.net"
+REQUIRED_PROGS=(bash ssh)
+
 # import custom colors and functions
 source colors.dat
 source functions.sh
@@ -27,27 +45,9 @@ source functions.sh
 # currently only uid 0 (root) is allowed to run this script
 only_run_as 1000
 
-# REQUIRED: important global variables
-ENV="dev"							# environment (prod, dev, test)
-MINARGS=0							# minimum number of cli arguments
-DEBUG=off							# Debug output? (on/off)
-INFO=off							# Informational output? (on/off)
-TMPFILE=$(mktemp /tmp/myfile.XXXXX) # create a tmp file
-LOGFILE=/var/log/someapp.log 		# name of log file to use
-
-# SYSTEM: time and dates to construct filenames
-US_DATE=`date +%d%m%Y`				# US formatted date
-EU_DATE=`date +%Y%m%d`				# EU formatted date
-NOW=`date +%H%M`					# The time at start of script
-
-# OPTIONAL: configure contact info for alerts, and required programs
-SYSADMIN_EMAIL="BOFH@localhost"
-SYSADMIN_PAGER="13135551212@localhost.verizon.net"
-REQUIRED_PROGS=(bash ssh)
-
 # does $LOGFILE exist, and is $LOGFILE writable?
-[ -z $LOGFILE ] && debug "Logfile $LOGFILE exists" || debug "Logfile $LOGFILE does not exist, exiting."; exit;
-[ -w $LOGFILE ] && debug "Logfile $LOGFILE writeable" || debug "Logfile $LOGFILE no Writable, exiting."; exit
+[ -e $LOGFILE ] && debug "Logfile $LOGFILE exists" || debug "Logfile $LOGFILE does not exist, exiting.";
+[ -w $LOGFILE ] && debug "Logfile $LOGFILE writeable" || debug "Logfile $LOGFILE no Writable, exiting.";
 
 # echo shell vars to log file for debugging
 if [ $DEBUG == "on" ]; then $ECHO $VARS >> $LOGFILE; fi
@@ -98,7 +98,6 @@ done
 # various admin functions. paste them here and change the variables
 # to suit your needs.
 #
-
 
 ##################################
 

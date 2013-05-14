@@ -1,3 +1,5 @@
+exit; end; # you dont want to accidentally run this file.
+
 # name		: bash administration framework v04.2 
 # subname	: because everyone is naming everything a framework now
 
@@ -7,6 +9,12 @@
 # file		: snippets.sh
 # language	: US/English
 # os support: SL6/RHEL6/CENTOS6/Arch
+
+
+# USING: 
+# uncomment the OPTIONAL COMMAND MAPPINGS section in functions.sh if youd like 
+# to use these snippets.
+
 
  ###########################################################################
 #																			#
@@ -96,7 +104,7 @@ $DC3DD if=/some/file of=/some/other/file progress=on
 
  ######################################
 # snippet 8
-# check dns server response $TIME
+# check dns server response time
 $TIME for ((a=1; a <= 1000; a++)); do $DIG @4.2.2.3 www.google.com; done
 
  ######################################

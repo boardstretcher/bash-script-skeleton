@@ -8,42 +8,19 @@
 # language	: US/English
 # os support: SL6/RHEL6/CENTOS6/Arch#
 
-# function failed() 		# error handling with trap
-#	usage: none really
-#
-function failed() {
-	local r=$?
-	set +o errtrace
-	set +o xtrace
-	$ECHO "An error occurred..."
-	cleanup
-}
+# REQUIRED COMMAND MAPPINGS:
+RM=$(which rm);			FIND=$(which find);
+ECHO=$(which echo);		TPUT=$(which tput);
+PS=$(which ps);			GREP=$(which grep);
+MAIL=$(which mail);		SSH=$(which ssh);
 
-# function cleanup() 		# run a cleanup before exiting
-#	usage: cleanup
-#
-function cleanup(){
-	debug "Starting cleanup..."
-	$RM -f $TMPFILE
-	debug "Finished cleanup"
-	exit
-}
+# OPTIONAL COMMAND MAPPINGS:
+# mainly for snippets
+#local RSYNC=$(which rsync);	  local  TAR=$(which tar);
+#local DC3DD=$(which dc3dd);	  local   DD=$(which dd);
+#local 	 PV=$(which pv);	  local TIME=$(which time);
+#local MYSQL=$(which mysql);	  local  YES=$(which yes);
 
-# function get_os_locs() 	# get os-specific tool locations into variables
-#	usage: get_os_locs
-#
-function get_os_locs(){
-	RM=$(which rm);			
-	ECHO=$(which echo);		DIG=$(which dig)
-	RSYNC=$(which rsync);	TPUT=$(which tput)
-	TAR=$(which tar);		DC3DD=$(which dc3dd)
-	DD=$(which dd);			PV=$(which pv)
-	PS=$(which ps);			TIME=$(which time)
-	GREP=$(which grep);		MYSQL=$(which mysql)
-	MAIL=$(which mail);		SSH=$(which ssh)
-	YES=$(which yes);		FIND=$(which find)
-	# and so on...
-}
 
 # function debug() 			# echo debug information to screen and log if DEBUG is set to on
 # 	usage: debug "the program broke"
@@ -65,13 +42,52 @@ function info(){
 	return
 }
 
+# function cleanup() 		# run a cleanup before exiting
+#	usage: cleanup
+#
+function cleanup(){
+	debug "Starting cleanup..."
+	$RM -f $TMPFILE
+	debug "Finished cleanup"
+	exit
+}
+
+# function failed() 		# error handling with trap
+#	usage: none really
+#
+function failed() {
+	local r=$?
+	set +o errtrace
+	set +o xtrace
+	$ECHO "An error occurred..."
+	cleanup
+}
+
+# function get_os_locs() 	# get os-specific tool locations into variables
+#	usage: get_os_locs
+#
+function get_os_locs(){
+	$ECHO
+	# and so on...
+}
+
 # function change_ifs()		# change the default field seperator
 # 	usage: change_ifs ":"
-#
+# NOTE: this is an environment-wide change! so be sure to undo it at the end
+# of the script. I only include it because i use it often. Dont use this.
 function change_ifs(){
 	new_ifs=$1
 	OLDIFS="${IFS}"
 	IFS=$new_ifs
+	return
+}
+
+# function revert_ifs()		# revert the default field seperator
+# 	usage: revert_ifs ":"
+# NOTE: this is an environment-wide change! so be sure to undo it at the end
+# of the script. I only include it because i use it often. Dont use this.
+function revert_ifs(){
+	IFS=$OLDIFS
 	return
 }
 

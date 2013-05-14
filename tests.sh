@@ -1,8 +1,8 @@
 # example debug output
-debug "debug info if DEBUG=on is set at beginning of script"
+debug "debug info test"
 
 # example info output
-info "standard info if INFO=on is set at beginning of script"
+info "standard info test"
 
 # $ECHO variables
 $ECHO "ENV = $ENV"
@@ -17,9 +17,18 @@ $ECHO "NOW = $NOW"
 $ECHO "SYSADMIN_EMAIL = $SYSADMIN_EMAIL"
 $ECHO "SYSADMIN_PAGER = $SYSADMIN_PAGER"
 
+# test string
+ASDF="the quick brown fox jumped over the slimy hogs"
+
 # run usages
 mini_usage
 usage
 
-# fail on something
-asdfasdf
+# check cleanup
+cleanup
+
+# check_regex() test
+check_regex "brown" $ASDF
+
+# fail on something and test failure()
+# asdfasdf
