@@ -50,7 +50,7 @@ REQUIRED_PROGS=(bash ssh)
 [ -w $LOGFILE ] && debug "Logfile $LOGFILE writeable" || debug "Logfile $LOGFILE no Writable, exiting."; exit
 
 # echo shell vars to log file for debugging
-if [ $DEBUG == "on" ]; then echo $VARS >> $LOGFILE; fi
+if [ $DEBUG == "on" ]; then $ECHO $VARS >> $LOGFILE; fi
 
 # check for required program(s)
 check_reqs
@@ -73,16 +73,16 @@ if [[ $# -lt $MINARGS ]]; then mini_usage; cleanup; fi
 while getopts ":dvV" opt; do
 	case $opt in
 		d)  
-		echo "-d debugging is on" 
+		$ECHO "-d debugging is on" 
 		;;
 		v)  
-		echo "-v verbosity is on" 
+		$ECHO "-v verbosity is on" 
 		;;
 		V)  
-		echo "-V version info" 
+		$ECHO "-V version info" 
 		;;
 		\?) 
-		echo "unknown arg: -$OPTARG" 
+		$ECHO "unknown arg: -$OPTARG" 
 		;;
 	esac
 done
@@ -104,7 +104,7 @@ done
 
 # echo all current vars to log file for debugging
 NEW_VARS="`set -o posix ; set`"
-if [ $DEBUG == "on" ]; then echo $NEW_VARS >> $LOGFILE; fi
+if [ $DEBUG == "on" ]; then $ECHO $NEW_VARS >> $LOGFILE; fi
 
 # clear bash traces if dev/test was set
 check_env unset

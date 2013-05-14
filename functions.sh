@@ -15,7 +15,7 @@ function failed() {
 	local r=$?
 	set +o errtrace
 	set +o xtrace
-	echo "An error occurred..."
+	$ECHO "An error occurred..."
 	cleanup
 }
 
@@ -24,7 +24,7 @@ function failed() {
 #
 function cleanup(){
 	debug "Starting cleanup..."
-	rm -f $TMPFILE
+	$RM -f $TMPFILE
 	debug "Finished cleanup"
 	exit
 }
@@ -33,9 +33,15 @@ function cleanup(){
 #	usage: get_os_locs
 #
 function get_os_locs(){
-	RSYNC=$(which rsync)
-	TAR=$(which tar)
-	DD=$(which dd)
+	RM=$(which rm);			
+	ECHO=$(which echo);		DIG=$(which dig)
+	RSYNC=$(which rsync);	TPUT=$(which tput)
+	TAR=$(which tar);		DC3DD=$(which dc3dd)
+	DD=$(which dd);			PV=$(which pv)
+	PS=$(which ps);			TIME=$(which time)
+	GREP=$(which grep);		MYSQL=$(which mysql)
+	MAIL=$(which mail);		SSH=$(which ssh)
+	YES=$(which yes);		FIND=$(which find)
 	# and so on...
 }
 
@@ -44,8 +50,8 @@ function get_os_locs(){
 #
 function debug(){
 	local msg="[debug] - $1"
-	[ "$DEBUG" == "on" ] && echo $msg
-	[ "$DEBUG" == "on" ] && echo $msg >> $LOGFILE
+	[ "$DEBUG" == "on" ] && $ECHO $msg
+	[ "$DEBUG" == "on" ] && $ECHO $msg >> $LOGFILE
 	return
  }
 
@@ -54,8 +60,8 @@ function debug(){
 #
 function info(){
 	local msg="[info] - $1"
-	[ "$INFO" == "on" ] && echo $msg
-	[ "$INFO" == "on" ] && echo $msg >> $LOGFILE
+	[ "$INFO" == "on" ] && $ECHO $msg
+	[ "$INFO" == "on" ] && $ECHO $msg >> $LOGFILE
 	return
 }
 
@@ -106,9 +112,8 @@ function alert(){
 	local error_message=$2
 	local email=$3
 	local pager=$4
-	local send=$(which mail) 
-	[ "$email" == "yes" ] && $send -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
-	[ "$pager" == "yes" ] && $send -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
+	[ "$email" == "yes" ] && $MAIL -s '$error_subject' "$SYSADMIN_EMAIL" < "$error_message";
+	[ "$pager" == "yes" ] && $MAIL -s '$error_subject' "$SYSADMIN_PAGER" < "$error_message";
 }
 
 # function only_run_as()	# only allow script to continue if uid matches
@@ -116,7 +121,7 @@ function alert(){
 #
 function only_run_as(){
 	if [[ $EUID -ne $1 ]]; then
-		echo "script must be run as uid $1" 1>&2
+		$ECHO "script must be run as uid $1" 1>&2
 		exit
 	fi
 }
@@ -131,10 +136,10 @@ text() {
 	local text="${@}"
 
 	case ${color} in
-		error  ) echo -en "["; tput setaf 1; echo -en "ERROR"; tput sgr0; echo "] ${text}";;
-		ok     ) echo -en "["; tput setaf 2; echo -en "OK"; tput sgr0; echo "]    ${text}";;
+		error  ) $ECHO -en "["; $TPUT setaf 1; $ECHO -en "ERROR"; $TPUT sgr0; $ECHO "] ${text}";;
+		ok     ) $ECHO -en "["; $TPUT setaf 2; $ECHO -en "OK"; $TPUT sgr0; $ECHO "]    ${text}";;
 	esac
-	tput sgr0
+	$TPUT sgr0
 }
 
 # function only_run_in()	# check that script is run from /root/bin
@@ -143,7 +148,7 @@ text() {
 only_run_in(){
 	local cwd=`pwd`
 	if [ $cwd != "$1" ]; then
-		echo "script must be run from $1 directory";
+		$ECHO "script must be run from $1 directory";
 		exit
 	fi
 }
@@ -154,7 +159,7 @@ only_run_in(){
 function check_reqs(){
 for x in "${REQUIRED_PROGS[@]}"
 	do
-		type "$x" >/dev/null 2>&1 || { echo "$x is required and is NOT installed. Please install $x and try again. Exiting."; exit; }
+		type "$x" >/dev/null 2>&1 || { $ECHO "$x is required and is NOT installed. Please install $x and try again. Exiting."; exit; }
 	done
 }
 
@@ -174,29 +179,23 @@ fi
 
 function if_check_ip() {
 	# check if ip is alive, if so then true and do this
-	echo
+	$ECHO
 }
 
 function wait_til_done(){
 	# perhaps
-	echo
+	$ECHO
 	wait
 }
 
 function paralell_exec() {
 	# fire off multiple bg jobs
-	echo
-	
-}
-
-function bg_exec() {
-	# execute in background and move on
-	echo
+	$ECHO
 }
 
 function set_verbosity(){
 	# Set verbosity for script output
-	echo
+	$ECHO
 }
 
 # never has so little been documented so well . . .
