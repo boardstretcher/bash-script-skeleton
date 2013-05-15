@@ -223,13 +223,13 @@ function myspace(){
 # function googl() 		#Creates a shortened URL from a longer one
 # usage: googl [some url]
 #
-function googl(){ 
+function googl(){
     $CURL -s -d "url=${1}" http://goo.gl/api/url | sed -n "s/.*:\"\([^\"]*\).*/\1\n/p" ;}
 
 # function checksu() 	# Checks a shortened URL's actual destination
 # usage: checksu [some shortened url]
 #
-function checksu(){ 
+function checksu(){
     $CURL -sI $1 | sed -n 's/Location:.* //p';}
 
 # function getextip()	# get your external ip address in text
@@ -241,7 +241,7 @@ function getextip(){
 # function tcp()		# dump tcp packets
 # usage: tcp
 #    
-function tcp(){ 
+function tcp(){
     # Usage: tcp [interface name]
     $TCPDUMP -nUs0 -w- -iinterface $1|tcpdump -n${2-A}r- ; }
 
