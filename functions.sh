@@ -269,11 +269,4 @@ function set_verbosity(){
 	$ECHO
 }
 
-# function get_os_locs() 	# get os-specific tool locations into variables
-#	usage: get_os_locs
-#
-function get_os_locs(){
-	$ECHO
-	# and so on...
-}
 # never has so little been documented so well . . .

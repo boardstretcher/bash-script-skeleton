@@ -16,10 +16,10 @@
 VARS=`set -o posix ; set`
 
 # REQUIRED: important global variables
-ENV="dev"								# environment (prod, dev, test)
+ENV="prod"								# environment (prod, dev, test)
 MINARGS=0								# minimum number of cli arguments
 DEBUG=off								# Debug output? (on/off)
-INFO=on									# Informational output? (on/off)
+INFO=off									# Informational output? (on/off)
 TMPFILE=$(mktemp /tmp/myfile.XXXXX)		# create a tmp file
 LOGFILE=/var/log/someapp.log 			# name of log file to use
 
@@ -48,7 +48,7 @@ only_run_as 1000
 # echo shell vars to log file for debugging
 if [ $DEBUG == "on" ]; then $ECHO $VARS >> $LOGFILE; fi
 
-# check for required program(s) listed in $REQUIRED_PROGS() 
+# check for required program(s) listed in $REQUIRED_PROGS
 check_reqs
 
 # trap ERR into failed() function for handling
@@ -86,7 +86,7 @@ done
 ##################################
 
 # test the framework by uncommenting the next line:
-# source tests.sh
+source tests/tests.sh
 
 #
 # additional scripting should go here
@@ -101,7 +101,7 @@ done
 NEW_VARS="`set -o posix ; set`"
 if [ $DEBUG == "on" ]; then $ECHO $NEW_VARS >> $LOGFILE; fi
 
-# clear bash traces if dev/test was set
+# clear bash traces if dev or test var was set
 check_env unset
 
 # call a clean exit
