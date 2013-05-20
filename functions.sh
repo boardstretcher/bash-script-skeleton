@@ -14,7 +14,7 @@ ECHO=$(which echo);		TPUT=$(which tput);
 PS=$(which ps);			GREP=$(which grep);
 MAIL=$(which mail);		SSH=$(which ssh);
 WGET=$(which wget); 	TCPDUMP=$(which tcpdump);
-CURL=$(which curl);	
+CURL=$(which curl);		PING=$(which ping);
 
 # OPTIONAL COMMAND MAPPINGS:
 # mainly for snippets
@@ -242,30 +242,32 @@ function getextip(){
 # usage: tcp
 #    
 function tcp(){
-    # Usage: tcp [interface name]
     $TCPDUMP -nUs0 -w- -iinterface $1|tcpdump -n${2-A}r- ; }
 
 #		#		#
 # TO BE WRITTEN #
 #		#		#
+
+# function check_ip()		# check ip, if alive do command
+# usage: check_ip 192.168.1.1 ALIVE=1
+#    
 function check_ip(){
 	# check if ip is alive, if so then true and do this
-	$ECHO
+	$PING -c 1 -w 5 $1 &>/dev/null
+	if [ $? -ne 0 ] ; then
+	debug "host $1 down. . ."
+	else
+	$2
+	fi
 }
 
 function wait_til_done(){
-	# perhaps
-	$ECHO
+	$1
 	wait
 }
 
 function paralell_exec(){
 	# fire off multiple bg jobs
-	$ECHO
-}
-
-function set_verbosity(){
-	# Set verbosity for script output
 	$ECHO
 }
 
