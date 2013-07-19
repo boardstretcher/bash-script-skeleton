@@ -4,8 +4,8 @@ $0 [OPTIONS] FILE [FILE ...] Do something to FILE
 		blah and stuff if you'd prefer further
 
 EXAMPLE:
-	thisscript.sh foo.xxx
-	does things to foo.xxx
+	thisscript.sh foo.xxxx
+	does things to foo.xxxx
 
 	thisscript.sh [-h | --help] some help text like this
 	thisscript.sh --version		version number
