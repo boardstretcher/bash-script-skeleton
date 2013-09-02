@@ -1,23 +1,23 @@
-<h2>baf (bash administrative framework)</h2>
+<h2>bss (bash script skeleton)</h2>
 <pre>
-licensed under gplv3
-a starting template to take care of everyday administration through bash
+MIT License
+a starting template to make everyday scripts in bash
 </pre>
 <br/><b>CONTENTS:</b><br/>
 <pre>
-LICENSE.md		: the gplv3 that this framework is licensed under
+LICENSE.md		: License that this work is licensed under
 README.md		: this file
 functions.sh	: commonly used functions for administration
 wireframe.sh	: a shell of a bash script with useful stuff already available
 usage.dat		: full usage information for the program
 mini_usage.dat	: mini version of usage information
-tests.sh		: source this file in the middle of the wireframe to test functions
+tests.sh		   : source this file in the middle of the wireframe to test functions
 </pre>
 <br/><b>ABOUT:</b><br/>
 <pre>
-bash administration framework v04.2
-by				: boardstretcher@gmail.com
-language		: US/English
+bash script skeleton v04.2
+by				   : boardstretcher@gmail.com
+language		   : US/English
 os support		: SL6/RHEL6/CENTOS6/Arch
 </pre>
 <br/><b>PURPOSE:</b><br/>
