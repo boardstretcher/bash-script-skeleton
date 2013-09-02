@@ -1,26 +1,8 @@
 exit; end; # you dont want to accidentally run this file.
 
-# name		: bash administration framework v04.2 
-# subname	: because everyone is naming everything a framework now
-
-# **see LICENSE.md for gplv3 information concerning this framework
-# **see http://www.commandlinefu.com/commands/browse for more bash snippets
-
-# ABOUT:
-# file		: snippets.sh
-# language	: US/English
-# os support: SL6/RHEL6/CENTOS6/Arch
-
 # USING: 
 # uncomment the OPTIONAL COMMAND MAPPINGS section in functions.sh if youd like 
 # to use these snippets.
-
- ###########################################################################
-#																			#
-# Some code snippets to get you started. copy and paste them into the code	#
-# section of the copied wireframe.sh file, and modify as you see fit.		#
-#																			#
- ###########################################################################
 
  #####################################
 # snippet 1
