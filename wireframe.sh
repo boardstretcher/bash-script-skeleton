@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 
-# see README.md for a quick stepbystep guide to using the framework
-
-# name		: bash administration framework v04.2 
-# subname	: because everyone is naming everything a framework now
-
-# *see LICENSE.md for gplv3 information concerning this framework
-
-# ABOUT:
-# file		: wireframe.sh
-# language	: US/English
-# os support: SL6/RHEL6/CENTOS6/Arch
-
 # grab system vars and store them in VAR_BEFORE
 VARS=`set -o posix ; set`
 
