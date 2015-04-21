@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
-# grab system vars and store them in VAR_BEFORE
+# grab system vars and store them in VARS
 VARS=`set -o posix ; set`
 
 # REQUIRED: important global variables
 ENV="prod"								# environment (prod, dev, test)
 MINARGS=0								# minimum number of cli arguments
 DEBUG=off								# Debug output? (on/off)
-INFO=off									# Informational output? (on/off)
-TMPFILE=$(mktemp /tmp/myfile.XXXXX)		# create a tmp file
-LOGFILE=/var/log/someapp.log 			# name of log file to use
+INFO=off								# Informational output? (on/off)
+TMPFILE=$(mktemp /tmp/myfile.XXXXX)					# create a tmp file
+LOGFILE=/var/log/someapp.log 						# name of log file to use
 
 # SYSTEM: time and dates to construct filenames
-US_DATE=`date +%d%m%Y`					# US formatted date
-EU_DATE=`date +%Y%m%d`					# EU formatted date
-NOW=`date +%H%M`						# The time at start of script
+US_DATE=`date +%d%m%Y`							# US formatted date
+EU_DATE=`date +%Y%m%d`							# EU formatted date
+NOW=`date +%H%M`							# The time at start of script
 
 # OPTIONAL: configure contact info for alerts, and required programs
 SYSADMIN_EMAIL="BOFH@localhost"
@@ -27,7 +27,7 @@ source functions.sh
 
 # Make sure only root/whoever can run this script
 # currently only uid 0 (root) is allowed to run this script
-only_run_as 1000
+only_run_as 0
 
 # does $LOGFILE exist, and is $LOGFILE writable?
 [ -e $LOGFILE ] && debug "Logfile $LOGFILE exists" || debug "Logfile $LOGFILE does not exist, exiting.";
@@ -74,7 +74,7 @@ done
 ##################################
 
 # test the framework by uncommenting the next line:
-source tests/tests.sh
+# source tests/tests.sh
 
 #
 # additional scripting should go here
@@ -85,7 +85,8 @@ source tests/tests.sh
 
 ##################################
 
-# echo all current vars to log file for debugging
+# echo all current vars to log file for debugging if debugging
+# is enabled
 NEW_VARS="`set -o posix ; set`"
 if [ $DEBUG == "on" ]; then $ECHO $NEW_VARS >> $LOGFILE; fi
 
