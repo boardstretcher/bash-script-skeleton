@@ -165,13 +165,13 @@ function only_run_in(){
 # usage: only_run_for [number of seconds] [command]
 #
 function only_run_for(){
-������� local runtime=${1:-1m}
-������� mypid=$$
-������� shift
-������� $@ &
-������� local cpid=$!
-������� sleep $runtime
-������� kill -s SIGTERM $cpid
+ local runtime=${1:-1m}
+ mypid=$$
+ shift
+ $@ &
+ local cpid=$!
+ sleep $runtime
+ kill -s SIGTERM $cpid
 }
 
 # function text()			# output text ERROR or OK with color (good for cli output)
@@ -196,7 +196,7 @@ function text(){
 function mygrants(){
 	$MYSQL -B -N $@ -e "SELECT DISTINCT CONCAT(
 	'SHOW GRANTS FOR ''', user, '''@''', host, ''';'
-	) AS query FROM mysql.user" |�� mysql $@ |�� sed 's/\(GRANT .*\)/\1;/;s/^\(Grants for .*\)/## \1 ##/;/##/{x;p;x;}'; }
+	) AS query FROM mysql.user" | mysql $@ | sed 's/\(GRANT .*\)/\1;/;s/^\(Grants for .*\)/## \1 ##/;/##/{x;p;x;}'; }
 
 # function myspace()	# Displays disk usage of tables
 # usage: myspace [ -h -u -p ]
@@ -214,25 +214,25 @@ function myspace(){
 # usage: googl [some url]
 #
 function googl(){
-��� $CURL -s -d "url=${1}"�http://goo.gl/api/url�| sed -n "s/.*:\"\([^\"]*\).*/\1\n/p" ;}
+ $CURL -s -d "url=${1}"http://goo.gl/api/url| sed -n "s/.*:\"\([^\"]*\).*/\1\n/p" ;}
 
 # function checksu() 	# Checks a shortened URL's actual destination
 # usage: checksu [some shortened url]
 #
 function checksu(){
-��� $CURL -sI $1 | sed -n 's/Location:.* //p';}
+ $CURL -sI $1 | sed -n 's/Location:.* //p';}
 
 # function getextip()	# get your external ip address in text
 # usage: getextip
 #
 function getextip(){
-��� $WGET -qO-�icanhazip.com; }
+ $WGET -qO- icanhazip.com; }
 
 # function tcp()		# dump tcp packets
 # usage: tcp
-#����
+#
 function tcp(){
-��� $TCPDUMP -nUs0 -w- -iinterface $1|tcpdump -n${2-A}r- ; }
+ $TCPDUMP -nUs0 -w- -iinterface $1|tcpdump -n${2-A}r- ; }
 
 #		#		#
 # TO BE WRITTEN #
@@ -240,7 +240,7 @@ function tcp(){
 
 # function check_ip()		# check ip, if alive do command
 # usage: check_ip 192.168.1.1 ALIVE=1
-#����
+#
 function check_ip(){
 	# check if ip is alive, if so then true and do this
 	$PING -c 1 -w 5 $1 &>/dev/null
